@@ -1,5 +1,5 @@
 body {
-    font-family: 'Statoil Display Medium', "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Lucida, sans-serif;
+    font-family: 'Statoil', "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Lucida, sans-serif;
 }
 
 div {
@@ -15,8 +15,8 @@ div {
     padding: 30px;
     border: solid 1px black;
     border-radius: 16px;
-    width: 67vh;
-    height: calc(100vh - 60px);
+    width: 75vh;
+    height: calc(100vh - 40px);
     position: relative;
 }
 
@@ -26,14 +26,13 @@ div {
     position: relative;
 }
 
-.content {
-    background-color: #000000;
-    color: #FFFFFF;
+.content-area {
+    background-color: #2f6e79;
+    color: #e3f9ed;
     padding: 5px;
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
-    display: flex;
-    flex-direction: column;
+    font-family: 'Statoil', "Lucida Sans", "Lucida Sans Unicode", "Lucida Grande", Lucida, sans-serif;
 }
 
 .image-view {
@@ -45,7 +44,8 @@ div {
 }
 
 .question {
-    font-size: 1.25vw;
+    padding: 20px;
+    position: relative;
 }
 
 
