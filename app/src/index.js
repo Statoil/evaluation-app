@@ -1,47 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import PageFrame from './components/PageFrame';
+import NoFrame from './components/NoFrame';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 
-class Question extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = props;
-    }
+class App extends React.Component {
     render() {
         return (
-            <div className="question">{this.state.phrase}</div>
+            <Router>
+                <div>
+                    <Route path="/frame" component={PageFrame} />
+                    <Route path="/noframe" component={NoFrame} />
+                </div>
+            </Router>
         );
     }
 }
 
-class Page extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            question: [
-                "Which of these did you use during your visit today?",
-                "On a scale from 1 to 6, how do you rate your overall experience?",
-                "How often have you used the Meeting Point?",
-                "On a scale from 1 to 6, how do you feel…"
-            ]
-        };
-    }
-    render() {
-        return (
-            <div className="content-area">
-                <Question phrase={this.state.question[0]}/>
-                <Question phrase={this.state.question[1]}/>
-                <Question phrase={this.state.question[2]}/>
-                <Question phrase={this.state.question[3]}/>
-            </div>
-        );
-    }
-}
 
 // ========================================
 
 ReactDOM.render(
-<Page />,
+
+<App />,
     document.getElementById('root')
 );
