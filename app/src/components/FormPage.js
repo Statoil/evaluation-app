@@ -1,37 +1,89 @@
 import React from "react";
+import Question from "./Question";
+import Title from "./Title";
 
-class Question extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = props;
-    }
-    render() {
-        return (
-            <div className="question">{this.state.phrase}</div>
-        );
-    }
-}
 
 export default class FormPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            question: [
-                "Which of these did you use during your visit today?",
-                "On a scale from 1 to 6, how do you rate your overall experience?",
-                "How often have you used the Meeting Point?",
-                "On a scale from 1 to 6, how do you feel…"
-            ]
-        };
-    }
+
     render() {
+        const data = this.data();
         return (
             <div className="content-area">
-                <Question phrase={this.state.question[0]}/>
-                <Question phrase={this.state.question[1]}/>
-                <Question phrase={this.state.question[2]}/>
-                <Question phrase={this.state.question[3]}/>
+                { data.map(question => <Question data={question} key={question.id}/>)}
             </div>
         );
+    }
+
+    data() {
+        return [
+            {
+                id: "1.0",
+                phrase: "Which of these did you use during your visit today?",
+                type: "multiple",
+                alternatives: [
+                    {id: 1, value: "The Bar"},
+                    {id: 2, value: "The Lounge"},
+                    {id: 3, value: "The Booth"},
+                    {id: 4, value: "Surface Hub (the digital whiteboard)"},
+                    {id: 5, value: "Collaboration desks"},
+                    {id: 6, value: "I just came for the coffee"}
+                ]
+            },
+            {
+                id: "2.0",
+                phrase: "How do you rate your overall experience?",
+                type: "grading",
+                range: {
+                    min: 1,
+                    max: 6,
+                    minText: "Very Bad",
+                    maxText: "Very Good",
+                    showNotApplicable: true
+                },
+                subQuestions: [
+                    {id: "2.1", value: "The Bar"},
+                    {id: "2.2", value: "The Lounge"},
+                    {id: "2.3", value: "The Booth"},
+                    {id: "2.4", value: "Surface Hub (the digital whiteboard)"},
+                    {id: "2.5", value: "Collaboration desks"},
+                    {id: "2.6", value: "I just came for the coffee"},
+                ]
+            },
+            {
+                id: "3.0",
+                phrase: "How often have you used the meeting point?",
+                type: "single",
+                alternatives: [
+                    {id: 1, value: "First time"},
+                    {id: 2, value: "Seldom"},
+                    {id: 3, value: "Monthly"},
+                    {id: 4, value: "Weekly"},
+                    {id: 5, value: "Daily"}
+                ]
+            },
+            {
+                id: "4.0",
+                phrase: "feel...",
+                type: "grading",
+                range: {
+                    min: 1,
+                    max: 6,
+                    minText: "Do not agree",
+                    maxText: "Fully agree",
+                    showNotApplicable: false
+                },
+                subQuestions: [
+                    {id: "4.1", value: "the visit enabled me to be more productive"},
+                    {id: "4.2", value: "this visit has positively added to my overall workday"},
+                    {id: "4.3", value: "ths area adds value to working at Equinor"},
+                    {id: "4.4", value: "this visit enabled me to collaborate efficiently"},
+                ]
+            },
+            {
+                id: "5.0",
+                phrase: "Do you have any additional comments about Meeting Point?",
+                type: "freetext"
+            }
+        ]
     }
 }
