@@ -1,9 +1,18 @@
 import React from "react";
+import {withRouter} from "react-router-dom";
+
+const SubmitButton = withRouter((props) => (
+    <button className="btn btn-primary" onClick={() => { console.log("url: " + props.url); props.history.push(props.url);}}
+            style={{"float": "right"}}>
+        Submit
+    </button>
+));
 
 export default class Question extends React.Component {
     constructor(props) {
         super(props);
         this.state = props.data;
+        this.state.startUrl = props.startUrl;
     }
     render() {
         if (this.state.type === "multiple") {
@@ -92,10 +101,13 @@ export default class Question extends React.Component {
         if (this.state.type === "freetext") {
             return (
                 <div className="question">
+                    <div style={{"display": "inline"}}><SubmitButton url={this.state.startUrl}/></div>
                     <div className="text-area-container">
                         {this.state.phrase}
-                        <textarea className="area form-control" id="exampleFormControlTextarea1"></textarea>
+
+                        <textarea className="area form-control" id="exampleFormControlTextarea1"/>
                     </div>
+
 
                 </div>
             );

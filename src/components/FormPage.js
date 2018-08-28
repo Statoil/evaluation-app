@@ -4,11 +4,19 @@ import Question from "./Question";
 
 export default class FormPage extends React.Component {
 
+    constructor(props) {
+        super(props);
+        console.log(JSON.stringify(props));
+        this.state = {
+            startUrl: props.match.url.replace(/form\/?$/,"")
+        }
+    }
+
     render() {
         const data = FormPage.data();
         return (
             <div className="content-area">
-                { data.map(question => <Question data={question} key={question.id}/>)}
+                { data.map(question => <Question data={question} key={question.id} startUrl={this.state.startUrl}/>)}
             </div>
         );
     }
