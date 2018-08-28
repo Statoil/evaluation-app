@@ -1,12 +1,11 @@
 import React from "react";
 import Question from "./Question";
-import Title from "./Title";
 
 
 export default class FormPage extends React.Component {
 
     render() {
-        const data = this.data();
+        const data = FormPage.data();
         return (
             <div className="content-area">
                 { data.map(question => <Question data={question} key={question.id}/>)}
@@ -14,7 +13,7 @@ export default class FormPage extends React.Component {
         );
     }
 
-    data() {
+    static data() {
         return [
             {
                 id: "1.0",

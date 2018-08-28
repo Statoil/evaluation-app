@@ -23,7 +23,7 @@
 .content-area {
     background-color: #2f6e79;
     color: #ffe6d7;
-    padding: 5px;
+    padding: 2vh 2vh 0 2vh;
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
     font-family: 'Statoil', "Courier New", "sans-serif";
@@ -40,7 +40,7 @@
 }
 
 .question {
-    padding: 1.5vh 1.5vh 0 1.5vh ;
+    padding-bottom: 2vh ;
     position: relative;
     font-size: 1.5vh;
     /*border: solid 1px gray;*/
@@ -88,4 +88,30 @@ td.input-cell {
     flex:1;
     height: 100%;
     font-size: 1.6vh;
+}
+
+.heading-container {
+    height: 50%;
+    position: relative;
+}
+
+.heading {
+    text-align: center;
+    font-size: 7vh;
+    position: absolute;
+    bottom: 0;
+}
+
+.button-area {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.button-area > button, .button-area > button:hover, .button-area > button:active, .button-area > button:visited {
+    color: #2f6e79 !important;
+    background: #ffe6d7 !important;
+    border-color: #ffe6d7 !important;
+    font-size: 3vh;
 }
