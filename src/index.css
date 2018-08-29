@@ -1,16 +1,16 @@
 
 
 .wrapper {
-    padding: 20px;
+    padding: 1vh;
 }
 
 .ipad-frame {
     margin: 0 auto;
-    padding: 30px;
+    padding: 2.5vh;
     border: solid 1px black;
-    border-radius: 16px;
+    border-radius: 2vh;
     width: 75vh;
-    height: calc(100vh - 40px);
+    height: 98vh;
     position: relative;
 }
 
@@ -42,7 +42,7 @@
 .question {
     padding-bottom: 2vh ;
     position: relative;
-    font-size: 1.5vh;
+    font-size: 1.6vh;
     /*border: solid 1px gray;*/
     flex: 1;
 }
@@ -55,16 +55,15 @@
     right: 0;
 }
 
-.title {
+.form-footer {
     font-size: 4vh;
     position: relative;
-    justify-content: center;
-    color: #ffe6d7;
+    padding-bottom: 2vh;
     /*border: solid 1px black;*/
 }
 
 .level2 {
-    padding-left: 20px;
+    padding-left: 2vh;
     padding-top: 0;
 }
 
@@ -73,7 +72,7 @@ table, th, td {
 }
 
 td.input-cell {
-    padding: 0 4px;
+    padding: 0 3px;
     text-align: center;
 }
 
@@ -88,7 +87,6 @@ td.input-cell {
 .text-area-container > .area {
     background: #ffe6d7;
     flex:1;
-    height: 100%;
     font-size: 1.6vh;
 }
 
@@ -102,6 +100,7 @@ td.input-cell {
     font-size: 7vh;
     position: absolute;
     bottom: 0;
+    width: 100%;
 }
 
 .button-area {
@@ -111,7 +110,7 @@ td.input-cell {
     transform: translate(-50%, -50%);
 }
 
-button, button:hover, button:active, button:visited {
+.btn, .btn:hover, .btn:active, .btn:visited {
     color: #2f6e79 !important;
     background: #ffe6d7 !important;
     border-color: #ffe6d7 !important;

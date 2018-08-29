@@ -1,12 +1,4 @@
 import React from "react";
-import {withRouter} from "react-router-dom";
-
-const SubmitButton = withRouter((props) => (
-    <button className="btn btn-primary" onClick={() => { console.log("url: " + props.url); props.history.push(props.url);}}
-            style={{"float": "right"}}>
-        Submit
-    </button>
-));
 
 export default class Question extends React.Component {
     constructor(props) {
@@ -14,6 +6,17 @@ export default class Question extends React.Component {
         this.state = props.data;
         this.state.startUrl = props.startUrl;
     }
+
+    generateGradingRangeLabels() {
+        if (!this.state.range.minText || !this.state.range.maxText) {
+            return null;
+        }
+        return (
+            `${this.state.range.min}: ${this.state.range.minText}, ${this.state.range.max}: ${this.state.range.maxText}`
+        );
+    }
+
+
     render() {
         if (this.state.type === "multiple") {
             return (
@@ -50,10 +53,11 @@ export default class Question extends React.Component {
                         <tbody>
                         <tr>
                             <td style={{"paddingRight": "8px"}}>{this.state.id}</td>
-                            <td colSpan="2">{this.state.phrase}</td>
-                            <td className="input-cell" colSpan={this.state.range.max - this.state.range.min + 1 + (this.state.range.showNotApplicable ? 1 : 0)}>{this.state.range.min} = {this.state.range.minText}, {this.state.range.max} = {this.state.range.maxText}</td>
+                            <td colSpan="3">{this.state.phrase}</td>
+                            <td className="input-cell" colSpan={this.state.range.max - this.state.range.min + 1 + (this.state.range.showNotApplicable ? 1 : 0)}>{ this.generateGradingRangeLabels() }</td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -63,8 +67,9 @@ export default class Question extends React.Component {
                         {this.state.subQuestions.map(subQuestion => {
                             return (
                                 <tr key={subQuestion.id}><td></td>
-                                    <td>&nbsp;&nbsp;</td>
-                                    <td>{subQuestion.value}</td>
+                                    <td>&nbsp;</td>
+                                    <td style={{"paddingRight": "8px"}}>{subQuestion.id}</td>
+                                    <td style={{"whiteSpace": "nowrap", "paddingRight": "8px"}}>{subQuestion.value}</td>
                                     {rangeArray.map(index => <td key={index} className="input-cell"><input type="radio" name={subQuestion.id}/></td>)}
                                     {this.state.range.showNotApplicable ? <td className="input-cell"><input type="radio" name={subQuestion.id}/></td> : null}
                                 </tr>
@@ -101,11 +106,10 @@ export default class Question extends React.Component {
         if (this.state.type === "freetext") {
             return (
                 <div className="question">
-                    <div style={{"display": "inline"}}><SubmitButton url={this.state.startUrl}/></div>
                     <div className="text-area-container">
                         {this.state.phrase}
 
-                        <textarea className="area form-control" id="exampleFormControlTextarea1"/>
+                        <textarea className="area form-control" id="exampleFormControlTextarea1" rows="2"/>
                     </div>
 
 

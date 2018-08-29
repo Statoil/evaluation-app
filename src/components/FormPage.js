@@ -1,5 +1,6 @@
 import React from "react";
 import Question from "./Question";
+import Footer from "./Footer";
 
 
 export default class FormPage extends React.Component {
@@ -17,6 +18,7 @@ export default class FormPage extends React.Component {
         return (
             <div className="content-area">
                 { data.map(question => <Question data={question} key={question.id} startUrl={this.state.startUrl}/>)}
+                <Footer url={this.state.startUrl}/>
             </div>
         );
     }
@@ -70,13 +72,13 @@ export default class FormPage extends React.Component {
             },
             {
                 id: "4.0",
-                phrase: "feel...",
+                phrase: "feel... (1: Do not agree, 6: Fully agree)",
                 type: "grading",
                 range: {
                     min: 1,
                     max: 6,
-                    minText: "Do not agree",
-                    maxText: "Fully agree",
+                    minText: null,
+                    maxText: null,
                     showNotApplicable: false
                 },
                 subQuestions: [
