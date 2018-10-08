@@ -21,19 +21,19 @@ export default class Question extends React.Component {
         if (this.state.type === "multiple") {
             return (
                 <div className="question">
-                    <table>
+                    <table style={{"width": "100%"}}>
                         <tbody>
                             <tr>
-                                <td style={{"paddingRight": "8px"}}>{this.state.id}</td>
+                                <td className="id-column">{this.state.id}</td>
                                 <td colSpan="2">{this.state.phrase}</td>
                             </tr>
                             {this.state.alternatives.map(alt => {
                                 return (
                                     <tr key={alt.id}>
-                                        <td></td>
-                                        <td>&nbsp;&nbsp;</td>
+                                        <td/>
+                                        <td className="level2-spacer"/>
                                         <td>{alt.value}</td>
-                                        <td><input type="checkbox"/></td>
+                                        <td className="input-cell"><input type="checkbox"/></td>
                                     </tr>
                                 );
                             })}
@@ -49,27 +49,23 @@ export default class Question extends React.Component {
             );
             return (
                 <div className="question">
-                    <table>
+                    <table style={{"width": "100%"}}>
                         <tbody>
                         <tr>
-                            <td style={{"paddingRight": "8px"}}>{this.state.id}</td>
-                            <td colSpan="3">{this.state.phrase}</td>
-                            <td className="input-cell" colSpan={this.state.range.max - this.state.range.min + 1 + (this.state.range.showNotApplicable ? 1 : 0)}>{ this.generateGradingRangeLabels() }</td>
+                            <td className="id-column">{this.state.id}</td>
+                            <td>{this.state.phrase}</td>
+                            <td className="input-cell" colSpan={this.state.range.max - this.state.range.min + 1 + (this.state.range.showNotApplicable ? 1 : 0)}/>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td/>
+                            <td>{ this.generateGradingRangeLabels() }</td>
                             {rangeArray.map(index =><td key={index} className="input-cell">{index}</td>)}
-                            {this.state.range.showNotApplicable ?<td>N/A</td>: null}
+                            {this.state.range.showNotApplicable ?<td className="input-cell">N/A</td>: null}
                         </tr>
                         {this.state.subQuestions.map(subQuestion => {
                             return (
-                                <tr key={subQuestion.id}><td></td>
-                                    <td>&nbsp;</td>
-                                    <td style={{"paddingRight": "8px"}}>{subQuestion.id}</td>
-                                    <td style={{"whiteSpace": "nowrap", "paddingRight": "8px"}}>{subQuestion.value}</td>
+                                <tr key={subQuestion.id}>
+                                    <td colSpan="2" style={{"whiteSpace": "nowrap", "paddingRight": "8px", "textAlign": "right"}}>{subQuestion.value}</td>
                                     {rangeArray.map(index => <td key={index} className="input-cell"><input type="radio" name={subQuestion.id}/></td>)}
                                     {this.state.range.showNotApplicable ? <td className="input-cell"><input type="radio" name={subQuestion.id}/></td> : null}
                                 </tr>
@@ -82,19 +78,19 @@ export default class Question extends React.Component {
         if (this.state.type === "single") {
             return (
                 <div className="question">
-                    <table>
+                    <table style={{"width": "100%"}}>
                         <tbody>
                         <tr>
-                            <td style={{"paddingRight": "8px"}}>{this.state.id}</td>
+                            <td className="id-column">{this.state.id}</td>
                             <td colSpan="2">{this.state.phrase}</td>
                         </tr>
                         {this.state.alternatives.map(alt => {
                             return (
                                 <tr key={alt.id}>
-                                    <td></td>
-                                    <td>&nbsp;&nbsp;</td>
+                                    <td/>
+                                    <td className="level2-spacer"/>
                                     <td>{alt.value}</td>
-                                    <td><input type="radio" name={this.state.id}/></td>
+                                    <td className="input-cell"><input type="radio" name={this.state.id}/></td>
                                 </tr>
                             );
                         })}

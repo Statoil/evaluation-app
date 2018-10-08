@@ -22,7 +22,7 @@
 
 .content-area {
     background-color: #2f6e79;
-    color: #ffe6d7;
+    color: white;
     padding: 2vh 2vh 0 2vh;
     position: absolute;
     top: 0; bottom: 0; left: 0; right: 0;
@@ -68,12 +68,22 @@
 }
 
 table, th, td {
-    /*border: 1px solid black;*/
+    /*border: 1px solid gray;*/
 }
 
 td.input-cell {
-    padding: 0 3px;
+    padding: 0;
     text-align: center;
+    width: 30px;
+}
+
+td.id-column {
+    width: 30px;
+    text-align: left;
+}
+
+td.level2-spacer {
+    width: 20px;
 }
 
 .text-area-container {

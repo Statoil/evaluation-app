@@ -26,7 +26,7 @@ export default class FormPage extends React.Component {
     static data() {
         return [
             {
-                id: "1.0",
+                id: "1",
                 phrase: "Which of these did you use during your visit today?",
                 type: "multiple",
                 alternatives: [
@@ -39,7 +39,7 @@ export default class FormPage extends React.Component {
                 ]
             },
             {
-                id: "2.0",
+                id: "2",
                 phrase: "How do you rate your overall experience?",
                 type: "grading",
                 range: {
@@ -59,7 +59,7 @@ export default class FormPage extends React.Component {
                 ]
             },
             {
-                id: "3.0",
+                id: "3",
                 phrase: "How often have you used the meeting point?",
                 type: "single",
                 alternatives: [
@@ -71,14 +71,14 @@ export default class FormPage extends React.Component {
                 ]
             },
             {
-                id: "4.0",
-                phrase: "feel... (1: Do not agree, 6: Fully agree)",
+                id: "4",
+                phrase: "feel...",
                 type: "grading",
                 range: {
                     min: 1,
                     max: 6,
-                    minText: null,
-                    maxText: null,
+                    minText: "Do not agree",
+                    maxText: "Fully agree",
                     showNotApplicable: false
                 },
                 subQuestions: [
