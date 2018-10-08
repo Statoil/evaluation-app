@@ -26,6 +26,9 @@ export default class FrontPage extends React.Component {
         return (
             <div className="content-area">
                 <div className="heading-container">
+                    <div style={{"float":"right"}}>
+                        <img src="/img/equinor-black.png" width="150px"/>
+                    </div>
                     <div className="heading">
                         How was your experience today?
                     </div>
