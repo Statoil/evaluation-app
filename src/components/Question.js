@@ -7,6 +7,19 @@ export default class Question extends React.Component {
             answers: [],
             startUrl: props.startUrl
         }
+
+        this.handleTextChange = this.handleTextChange.bind(this);
+    }
+
+    handleTextChange(e) {
+        var question = this.props.data.phrase;
+        var answer = {
+            question: e.target.value
+        };
+
+        this.setState({
+            answers: answer
+        });
     }
 
     generateGradingRangeLabels() {
@@ -109,11 +122,8 @@ export default class Question extends React.Component {
                 <div className="question">
                     <div className="text-area-container">
                         {questions.phrase}
-
-                        <textarea className="area form-control" id="exampleFormControlTextarea1" rows="2"/>
+                        <textarea className="area form-control" id="exampleFormControlTextarea1" rows="2" onChange={this.handleTextChange}/>
                     </div>
-
-
                 </div>
             );
         }
