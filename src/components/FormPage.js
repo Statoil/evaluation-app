@@ -18,8 +18,7 @@ export default class FormPage extends React.Component {
         const questions = JSON.parse(data).questions
         return (
             <div className="content-area">
-                {questions.map(ques => <Question data={ques} key={ques.id} startUrl={this.state.startUrl} />)}
-                <Footer url={this.state.startUrl} />
+                <Question data={questions} startUrl={this.state.startUrl}/>
             </div>
         );
     }

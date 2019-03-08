@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from 'antd'
 
 export default class Question extends React.Component {
     constructor(props) {
@@ -9,12 +10,18 @@ export default class Question extends React.Component {
         }
 
         this.handleTextChange = this.handleTextChange.bind(this);
+        this.handleSubmitQuestionnaire = this.handleSubmitQuestionnaire.bind(this);
     }
 
-    handleTextChange(e) {
-        var question = this.props.data.phrase;
+    handleTextChange(e, questionId) {
+        var values = {
+            subQuestionId: 0,
+            value: e.target.value
+        }
+
         var answer = {
-            question: e.target.value
+            questionId: questionId,
+            values: values
         };
 
         this.setState({
@@ -22,111 +29,157 @@ export default class Question extends React.Component {
         });
     }
 
-    generateGradingRangeLabels() {
-        var questions = this.props.data;
-        if (!questions.range.minText || !questions.range.maxText) {
+    handleSubmitQuestionnaire(){
+        let { answers } = this.state;
+
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function () {
+          if (this.readyState === 4) {
+            console.log(this.responseText);
+            }
+        });
+
+        xhr.open("POST", "https://eval-app.azurewebsites.net/api/v1/forms/1/responses");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("cache-control", "no-cache");
+        xhr.setRequestHeader("Postman-Token", "b36d0504-5bb4-42e8-9185-95aeac9a0213");
+
+        xhr.send(answers);
+    }
+
+    generateGradingRangeLabels(question) {
+        if (!question.range.minText || !question.range.maxText) {
             return null;
         }
         return (
-            `${questions.range.min}: ${questions.range.minText}, ${questions.range.max}: ${questions.range.maxText}`
+            `${question.range.min}: ${question.range.minText}, ${question.range.max}: ${question.range.maxText}`
         );
     }
 
+    getFooter() {
+        return (
+            <div style={{ padding: 20, textAlign: 'center' }}>
+                <Button type="primary" size="large" onClick={this.handleSubmitQuestionnaire}>Submit</Button>
+            </div>
+        );
+    }
 
-    render() {
-        var questions = this.props.data;
+    getTitle() {
+        return (
+            <div className="editTitle" style={{ margin: '0 20px 20px 20px', padding: 20, textAlign: 'center' }} onClick={this.handleTitleClick}>
+                <h2><strong>{this.state.title}</strong></h2>
+            </div>
+        );
+    }
 
-        if (questions.type === "multiple") {
-            return (
-                <div className="question">
-                    <table style={{"width": "100%"}}>
-                        <tbody>
+    getQuestions() {
+        let questions = this.props.data;
+
+        return questions.map((question) => {
+            if (question.type === "multiple") {
+                return (
+                    <div className="question">
+                        <table style={{"width": "100%"}}>
+                            <tbody>
+                                <tr>
+                                    <td className="id-column">{question.id}</td>
+                                    <td colSpan="2">{question.phrase}</td>
+                                </tr>
+                                {question.alternatives.map(alt => {
+                                    return (
+                                        <tr key={alt.id}>
+                                            <td/>
+                                            <td className="level2-spacer"/>
+                                            <td>{alt.value}</td>
+                                            <td className="input-cell"><input type="checkbox"/></td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                );
+            }
+            if (question.type === "grading") {
+                const rangeArray = Array.from(
+                    new Array(question.range.max - question.range.min + 1),
+                    (val, index) => index + question.range.min
+                );
+                return (
+                    <div className="question">
+                        <table style={{"width": "100%"}}>
+                            <tbody>
                             <tr>
-                                <td className="id-column">{questions.id}</td>
-                                <td colSpan="2">{questions.phrase}</td>
+                                <td className="id-column">{question.id}</td>
+                                <td>{question.phrase}</td>
+                                <td className="input-cell" colSpan={question.range.max - question.range.min + 1 + (question.range.showNotApplicable ? 1 : 0)}/>
                             </tr>
-                            {questions.alternatives.map(alt => {
+                            <tr>
+                                <td/>
+                                <td>{ this.generateGradingRangeLabels(question) }</td>
+                                {rangeArray.map(index =><td key={index} className="input-cell">{index}</td>)}
+                                {question.showNotApplicable ? <td className="input-cell">N/A</td>: null}
+                            </tr>
+                            {question.subQuestions.map(subQuestion => {
+                                return (
+                                    <tr key={subQuestion.id}>
+                                        <td colSpan="2" style={{"whiteSpace": "nowrap", "paddingRight": "8px", "textAlign": "right"}}>{subQuestion.value}</td>
+                                        {rangeArray.map(index => <td key={index} className="input-cell"><input type="radio" name={subQuestion.id}/></td>)}
+                                        {question.range.showNotApplicable ? <td className="input-cell"><input type="radio" name={subQuestion.id}/></td> : null}
+                                    </tr>
+                                );
+                            })}
+                            </tbody>
+                        </table>                
+                    </div>
+                );
+            }
+            if (question.type === "single") {
+                return (
+                    <div className="question">
+                        <table style={{"width": "100%"}}>
+                            <tbody>
+                            <tr>
+                                <td className="id-column">{question.id}</td>
+                                <td colSpan="2">{question.phrase}</td>
+                            </tr>
+                            {question.alternatives.map(alt => {
                                 return (
                                     <tr key={alt.id}>
                                         <td/>
                                         <td className="level2-spacer"/>
                                         <td>{alt.value}</td>
-                                        <td className="input-cell"><input type="checkbox"/></td>
+                                        <td className="input-cell"><input type="radio" name={question.id}/></td>
                                     </tr>
                                 );
                             })}
-                        </tbody>
-                    </table>
-                </div>
-            );
-        }
-        if (questions.type === "grading") {
-            const rangeArray = Array.from(
-                new Array(questions.range.max - questions.range.min + 1),
-                (val, index) => index + questions.range.min
-            );
-            return (
-                <div className="question">
-                    <table style={{"width": "100%"}}>
-                        <tbody>
-                        <tr>
-                            <td className="id-column">{questions.id}</td>
-                            <td>{questions.phrase}</td>
-                            <td className="input-cell" colSpan={questions.range.max - questions.range.min + 1 + (questions.range.showNotApplicable ? 1 : 0)}/>
-                        </tr>
-                        <tr>
-                            <td/>
-                            <td>{ this.generateGradingRangeLabels() }</td>
-                            {rangeArray.map(index =><td key={index} className="input-cell">{index}</td>)}
-                            {questions.showNotApplicable ? <td className="input-cell">N/A</td>: null}
-                        </tr>
-                        {questions.subQuestions.map(subQuestion => {
-                            return (
-                                <tr key={subQuestion.id}>
-                                    <td colSpan="2" style={{"whiteSpace": "nowrap", "paddingRight": "8px", "textAlign": "right"}}>{subQuestion.value}</td>
-                                    {rangeArray.map(index => <td key={index} className="input-cell"><input type="radio" name={subQuestion.id}/></td>)}
-                                    {questions.range.showNotApplicable ? <td className="input-cell"><input type="radio" name={subQuestion.id}/></td> : null}
-                                </tr>
-                            );
-                        })}
-                        </tbody>
-                    </table>                </div>
-            );
-        }
-        if (questions.type === "single") {
-            return (
-                <div className="question">
-                    <table style={{"width": "100%"}}>
-                        <tbody>
-                        <tr>
-                            <td className="id-column">{questions.id}</td>
-                            <td colSpan="2">{questions.phrase}</td>
-                        </tr>
-                        {questions.alternatives.map(alt => {
-                            return (
-                                <tr key={alt.id}>
-                                    <td/>
-                                    <td className="level2-spacer"/>
-                                    <td>{alt.value}</td>
-                                    <td className="input-cell"><input type="radio" name={questions.id}/></td>
-                                </tr>
-                            );
-                        })}
-                        </tbody>
-                    </table>
-                </div>
-            );
-        }
-        if (questions.type === "freetext") {
-            return (
-                <div className="question">
-                    <div className="text-area-container">
-                        {questions.phrase}
-                        <textarea className="area form-control" id="exampleFormControlTextarea1" rows="2" onChange={this.handleTextChange}/>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-            );
-        }
+                );
+            }
+            if (question.type === "freetext") {
+                return (
+                    <div className="question">
+                        <div className="TextArea">
+                            {question.phrase}
+                            <textarea className="area form-control" id="exampleFormControlTextarea1" rows="2" onChange={e => this.handleTextChange(e, question.id)}/>
+                        </div>
+                    </div>
+                );
+            }
+        });
     }
 
+    render() {
+        return (
+            <div>
+                {this.getTitle()}
+                {this.getQuestions()}
+                {this.getFooter()}
+            </div>
+        );
+    }
 }

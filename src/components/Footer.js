@@ -1,11 +1,12 @@
 import React from "react";
 import {withRouter} from "react-router-dom";
+import { Button } from 'antd'
 
 const SubmitButton = withRouter((props) => (
-    <button className="btn btn-primary" onClick={() => { console.log("url: " + props.url); props.history.push(props.url);}}
+    <Button className="btn btn-primary" onClick={() => { console.log("url: " + props.url); props.history.push(props.url);}}
             style={{"float": "right", "fontSize": "3vh"}}>
         Submit
-    </button>
+    </Button>
 ));
 
 export default class Content extends React.Component {
